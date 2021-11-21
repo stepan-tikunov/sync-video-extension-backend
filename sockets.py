@@ -1,4 +1,4 @@
-import asyncio, signal, websockets, json
+import asyncio, signal, websockets, json, traceback
 
 clients = {}
 
@@ -38,10 +38,10 @@ async def handler(client, uri):
         async for message in client:
             try:
                 data = json.loads(message)
-                bad_message = any("type" not in data,
+                bad_message = any(["type" not in data,
                                   "videoId" not in data,
                                   "time" not in data,
-                                  data["type"] not in ("pause", "play"))
+                                  data["type"] not in ("pause", "play")])
                 try:
                     int(data["videoId"])
                     videoIdIsNotInt = False
@@ -60,7 +60,7 @@ async def handler(client, uri):
                     message = json.dumps(data, ensure_ascii=False)
                     await broadcast(uri, message)
             except:
-                pass
+                traceback.print_exc()
     except:
         pass
     await disconnect(client, uri)
