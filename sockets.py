@@ -48,13 +48,7 @@ async def handler(client, uri):
                 except:
                     videoIdIsNotInt = True
 
-                try:
-                    float(data["time"])
-                    timeIsNotFloat = False
-                except:
-                    timeIsNotFloat = False
-
-                bad_message = any(bad_message, videoIdIsNotInt, timeIsNotFloat)
+                bad_message = bad_message or videoIdIsNotInt
                 if bad_message:
                     pass
                 else:
