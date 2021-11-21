@@ -40,7 +40,7 @@ async def handler(client, uri):
                 data = json.loads(message)
                 bad_message = any("type" not in data,
                                   "videoId" not in data,
-                                  "time": not in data,
+                                  "time" not in data,
                                   data["type"] not in ("pause", "play"))
                 try:
                     int(data["videoId"])
