@@ -27,8 +27,10 @@ async def disconnect(client, uri):
 
 async def broadcast(uri, message):
     try:
+        tasks = []
         for client in clients[uri]:
-            await client.send(message)
+            tasks.append(client.send(message))
+        await asyncio.get_event_loop().wait(tasks)
     except:
         await disconnect(client, uri)
 
