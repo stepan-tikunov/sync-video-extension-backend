@@ -26,13 +26,19 @@ async def disconnect(client, uri):
     await update_room_size(uri)
 
 async def broadcast(uri, message):
-    try:
-        tasks = []
-        for client in clients[uri]:
-            tasks.append(client.send(message))
-        await asyncio.get_event_loop().wait(tasks)
-    except:
-        await disconnect(client, uri)
+    tasks = []
+
+    for client in clients[uri]:
+        async def task():
+            try:
+                await client.send(message)
+            except:
+                await disconnect(client, uri)
+
+        tasks.append(task())
+
+    await asyncio.get_event_loop().wait(tasks)
+
 
 async def handler(client, uri):
     await connect(client, uri)
