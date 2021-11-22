@@ -37,7 +37,7 @@ async def broadcast(uri, message):
 
         tasks.append(task())
 
-    await asyncio.get_event_loop().wait(tasks)
+    await asyncio.wait(tasks)
 
 
 async def handler(client, uri):
