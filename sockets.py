@@ -53,11 +53,11 @@ async def handler(client, uri):
                                   data["type"] not in ("pause", "play")])
                 try:
                     int(data["videoId"])
-                    videoIdIsNotInt = False
+                    video_id_is_int = True
                 except:
-                    videoIdIsNotInt = True
+                    video_id_is_int = False
 
-                bad_message = bad_message or videoIdIsNotInt
+                bad_message = bad_message or not video_id_is_int
                 if bad_message:
                     pass
                 else:
